@@ -8,6 +8,10 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
     return render_template('index.html')
+
+@app.route('/add_page')
+def add_page():
+    return render_template('add_page.html')
     
 @app.route('/statics/<string:file_name>')
 def statics(file_name):
