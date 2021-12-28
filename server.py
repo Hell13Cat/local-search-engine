@@ -53,8 +53,11 @@ def search_r():
         title = "Поиск не дал результатов"
         text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + text + "</p>"
     else:
-        title = "Страница добавлена в каталог"
-        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+        title = "Поиск по запросу '" + text + "' успешен"
+        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> "
+        for one_page in data["results"]:
+            add_text = "<p>" + one_page["uid"] + " - <a href='" + one_page["url"] + "'>"+ one_page["title"] + "</a> </p> <br>"
+            text += add_text
     return html_page.format(title=title, text=text)
 
 @app.route('/statics/<string:file_name>')
