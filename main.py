@@ -1,18 +1,9 @@
 import db
-import requests
 from bs4 import BeautifulSoup
 import wget
 import os
 import cfscrape
-
-def whatisthis(s):
-    if isinstance(s, str):
-        print("ordinary string")
-    elif isinstance(s, unicode):
-        print("unicode string")
-    else:
-        print("not a string")
-    print(type(s))
+import extf
 
 def get_data(url):
     datas = {}
@@ -22,5 +13,21 @@ def get_data(url):
     datas["url"] = url
     datas["title"] = soup.find("title").text
     datas["text"] = (soup.find("body").text).replace("\\n", " ")
-    whatisthis(datas["text"])
     return datas
+
+def save_data(datas):
+    try:
+        data = db.load("pages")
+    except:
+        data = {"0":{"url":"0", "title":"0", "text":""}}
+    for one_page in data.keys():
+        if datas["url"] == data[one_page]["url"]:
+            return {"code":1}
+    add_page = 1
+    while add_page == 1:
+        id_page = extf.gen_id()
+        if id_page not in data:
+            add_page = 0
+    data[id_page] = datas
+    print(data)
+    db.save("pages", data)
