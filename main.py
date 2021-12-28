@@ -1,7 +1,5 @@
 import db
 from bs4 import BeautifulSoup
-import wget
-import os
 import cfscrape
 import extf
 
