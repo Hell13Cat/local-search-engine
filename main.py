@@ -47,3 +47,15 @@ def load_data(text):
             res.append(datas)
             code = 1
     return {"code":code, "results":res}
+
+def remove_data(uid):
+    try:
+        data = db.load("pages")
+    except:
+        data = {"0":{"url":"0", "title":"0", "text":""}}
+    if uid not in data:
+        return {"code":0}
+    datas = data[uid]
+    del data[uid]
+    db.save("pages", data)
+    return {"code":1, "uid":uid, datas}

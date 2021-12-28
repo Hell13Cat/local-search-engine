@@ -26,6 +26,23 @@ def add_page_r():
         title = "Страница добавлена в каталог"
         text = "<p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
     return html_page.format(title=title, text=text)
+
+@app.route('/remove_page')
+def remove_page():
+    return render_template('remove_page.html')
+
+@app.route('/remove_page', methods=('GET', 'POST'))
+def remove_page_r():
+    uid = request.form['uid']
+    data = main.remove_data(uid)
+    html_page = open("templates/blanks.html", "r").read()
+    if data["code"] == 0:
+        title = "Страница по UID отсутсвует в каталоге"
+        text = "<p>" + uid + "</p>"
+    else:
+        title = "Страница удалена из каталога"
+        text = "<p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+    return html_page.format(title=title, text=text)
     
 @app.route('/statics/<string:file_name>')
 def statics(file_name):

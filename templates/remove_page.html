@@ -13,14 +13,14 @@
             <img src="/statics/head2.png" alt="Head Image">
             <div id="bodydiv">
                 <div class="titlediv">
-                    <h1><code>Добавить страницу</code></h1>
+                    <h1><code>Удалить страницу</code></h1>
                 </div>
                 <div class="contentdiv">
                     <div id="lista">
-                        <a href="/">Главная страница</a> | <a href="/remove_page">Удалить страницу</a>
-                        <form action="/add_page" method="post">
-                            <input type="text" name="url" placeholder="URL" class="form-control"></input>
-                            <button type="submit" class="btn btn-primary">ADD</button>
+                        <a href="/">Главная страница</a> | <a href="/add_page">Добавить страницу</a>
+                        <form action="/remove_page" method="post">
+                            <input type="text" name="url" placeholder="UID" class="form-control"></input>
+                            <button type="submit" class="btn btn-primary">REMOVE</button>
                           </form>
                     </div>
                 </div>
