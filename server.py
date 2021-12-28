@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
+import os
+import main
 
 app = Flask(__name__)
 
@@ -7,6 +9,6 @@ app = Flask(__name__)
 def hello():
     return render_template('index.html')
     
-@app.route('/static')
-def hello():
-    return 'Hello, World!'
+@app.route('/static/<str:file_name>')
+def static(file_name):
+    return send_from_directory(os.getcwd()+"/static/"+file_name, file_name)
