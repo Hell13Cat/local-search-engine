@@ -7,8 +7,13 @@ import extf
 
 def get_data(url):
     datas = {}
-    scraper = cfscrape.CloudflareScraper()
-    req = scraper.get(url)
+    try:
+        scraper = cfscrape.CloudflareScraper()
+        req = scraper.get(url)
+        datas["code"] = 1
+    except:
+        datas["code"] = 0
+        return datas
     soup = BeautifulSoup(req.text, 'lxml')
     datas["url"] = url
     datas["title"] = soup.find("title").text

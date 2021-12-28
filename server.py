@@ -17,6 +17,7 @@ def add_page():
 def add_page_r():
     url = request.form['url']
     datas = main.get_data(url)
+    del datas["code"]
     data = main.save_data(datas)
     html_page = open("templates/blanks.html", "r").read()
     if data["code"] == 0:
@@ -30,15 +31,23 @@ def add_page_r():
 @app.route('/add_pagem', methods=('GET', 'POST'))
 def add_pagem_r():
     urls = request.form['url']
-    datas = main.get_data(urls)
-    data = main.save_data(datas)
+    links = main.get_links(urls)
+    title = "Множественное добавление ссылок со страницы"
+    text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> "
     html_page = open("templates/blanks.html", "r").read()
-    if data["code"] == 0:
-        title = "Страница присутсвует в каталоге"
-        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
-    else:
-        title = "Страница добавлена в каталог"
-        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+    for url in links:
+        datas = main.get_data(url)
+        if datas["code"] == 0:
+            pass
+        else:
+            del datas["code"]
+            data = main.save_data(datas)
+            if data["code"] == 0:
+                text_add = "<p> Присутвует: " + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a> </p> <br>"
+                text += text_add
+            else:
+                text_add = "<p> Остсутвует: " + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a> </p> <br>"
+                text += text_add
     return html_page.format(title=title, text=text)
 
 @app.route('/remove_page')
