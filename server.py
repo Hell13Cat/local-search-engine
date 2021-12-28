@@ -27,6 +27,20 @@ def add_page_r():
         text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
     return html_page.format(title=title, text=text)
 
+@app.route('/add_pagem', methods=('GET', 'POST'))
+def add_pagem_r():
+    urls = request.form['url']
+    datas = main.get_data(urls)
+    data = main.save_data(datas)
+    html_page = open("templates/blanks.html", "r").read()
+    if data["code"] == 0:
+        title = "Страница присутсвует в каталоге"
+        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+    else:
+        title = "Страница добавлена в каталог"
+        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+    return html_page.format(title=title, text=text)
+
 @app.route('/remove_page')
 def remove_page():
     return render_template('remove_page.html')

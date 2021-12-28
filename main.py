@@ -15,6 +15,19 @@ def get_data(url):
     datas["text"] = (soup.find("body").text).replace("\\n", " ")
     return datas
 
+def get_links(url):
+    links = []
+    scraper = cfscrape.CloudflareScraper()
+    req = scraper.get(url)
+    soup = BeautifulSoup(req.text, 'lxml')
+    datas = soup.find_all("a")
+    for one_data in datas:
+        try:
+            links.append(one_data.get("href"))
+        except:
+            pass
+    return links
+
 def save_data(datas):
     try:
         data = db.load("pages")
