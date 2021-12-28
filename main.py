@@ -31,3 +31,18 @@ def save_data(datas):
     data[id_page] = datas
     print(data)
     db.save("pages", data)
+
+def load_data(text):
+    try:
+        data = db.load("pages")
+    except:
+        data = {"0":{"url":"0", "title":"0", "text":""}}
+    res = []
+    code = 0
+    for one_page in data.keys():
+        if text in data[one_page]["text"]:
+            datas = data[one_page]
+            datas["uid"] = one_page
+            res.append(datas)
+            code = 1
+    return {"code":code, "results":res}
