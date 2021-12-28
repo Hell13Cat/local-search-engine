@@ -58,4 +58,4 @@ def remove_data(uid):
     datas = data[uid]
     del data[uid]
     db.save("pages", data)
-    return {"code":1, "uid":uid, datas}
+    return {"code":1, "uid":uid, "data":datas}

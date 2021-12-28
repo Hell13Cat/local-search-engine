@@ -21,10 +21,10 @@ def add_page_r():
     html_page = open("templates/blanks.html", "r").read()
     if data["code"] == 0:
         title = "Страница присутсвует в каталоге"
-        text = "<p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
     else:
         title = "Страница добавлена в каталог"
-        text = "<p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
     return html_page.format(title=title, text=text)
 
 @app.route('/remove_page')
@@ -38,12 +38,25 @@ def remove_page_r():
     html_page = open("templates/blanks.html", "r").read()
     if data["code"] == 0:
         title = "Страница по UID отсутсвует в каталоге"
-        text = "<p>" + uid + "</p>"
+        text = "<a href='/'>Главная страница</a> | <a href='/remove_page'>Удалить страницу</a> <br> <p>" + uid + "</p>"
     else:
         title = "Страница удалена из каталога"
-        text = "<p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+        text = "<a href='/'>Главная страница</a> | <a href='/remove_page'>Удалить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
     return html_page.format(title=title, text=text)
-    
+
+@app.route('/search', methods=('GET', 'POST'))
+def search_r():
+    text = request.form["text"]
+    data = main.load_data(text)
+    html_page = open("templates/blanks.html", "r").read()
+    if data["code"] == 0:
+        title = "Поиск не дал результатов"
+        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + text + "</p>"
+    else:
+        title = "Страница добавлена в каталог"
+        text = "<a href='/'>Главная страница</a> | <a href='/add_page'>Добавить страницу</a> <br> <p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
+    return html_page.format(title=title, text=text)
+
 @app.route('/statics/<string:file_name>')
 def statics(file_name):
     return send_from_directory(os.getcwd()+"/static", file_name)
