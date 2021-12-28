@@ -21,10 +21,10 @@ def add_page_r():
     html_page = open("templates/blanks.html", "r").read()
     if data["code"] == 0:
         title = "Страница присутсвует в каталоге"
-        text = "<p>" + data["uid"] + " - " + data["data"]["title"] + "<br>" + data["data"]["url"] + "</p>"
+        text = "<p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
     else:
         title = "Страница добавлена в каталог"
-        text = "<p>" + data["uid"] + " - " + data["data"]["title"] + "<br>" + data["data"]["url"] + "</p>"
+        text = "<p>" + data["uid"] + " - <a href='" + data["data"]["url"] + "'>"+ data["data"]["title"] + "</a>" + "</p>"
     return html_page.format(title=title, text=text)
     
 @app.route('/statics/<string:file_name>')
