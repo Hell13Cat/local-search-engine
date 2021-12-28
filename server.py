@@ -9,6 +9,8 @@ app = Flask(__name__)
 def hello():
     return render_template('index.html')
     
-@app.route('/static/<str:file_name>')
-def static(file_name):
-    return send_from_directory(os.getcwd()+"/static/"+file_name, file_name)
+@app.route('/statics/<string:file_name>')
+def statics(file_name):
+    return send_from_directory(os.getcwd()+"/static", file_name)
+
+app.run(host="localhost", port=9283)
