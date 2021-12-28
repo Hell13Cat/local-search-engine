@@ -22,7 +22,7 @@ def save_data(datas):
         data = {"0":{"url":"0", "title":"0", "text":""}}
     for one_page in data.keys():
         if datas["url"] == data[one_page]["url"]:
-            return {"code":1}
+            return {"code":0, "uid":one_page, "data":data[one_page]}
     add_page = 1
     while add_page == 1:
         id_page = extf.gen_id()
@@ -31,6 +31,7 @@ def save_data(datas):
     data[id_page] = datas
     print(data)
     db.save("pages", data)
+    return {"code":1, "uid":id_page, "data":datas}
 
 def load_data(text):
     try:
